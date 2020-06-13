@@ -1,0 +1,42 @@
+extends ../layouts/Layout
+block content
+    include ../layouts/HeaderUser
+    p.response_msg
+    if error === ''
+        .product_detail
+            //- product images
+            .product_image_con
+                .aside_small_images
+                    -product.images.forEach(image => {
+                        img(src=`uploads/${product.folder}/${image}` alt='image')
+                    -})
+                .full_image_size
+                    img(src=`uploads/${product.folder}/${product.images[0]}`)
+
+            //- product details
+            .product_detail_con 
+                h2= product.name
+                p(style='font-size:15px')= `In Stock(${product.stocks})`
+                p(style='font-size:19px') &#x20B9; 
+                    span= product.price
+    
+                h3(style='margin:10px 0') Description
+                ul(style='margin: 0 20px;')
+                    -product.description.forEach(d => {
+                        li= d
+                    -})
+
+        .cart_wishlist_buy  
+            button.add_to_cart Add To Cart
+            button.wishlist Wishlist
+            button.buy Buy Now
+
+    else 
+        p= error
+
+    script(
+        src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js" 
+        integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" 
+        crossorigin="anonymous"
+    )
+    script(src="js/product.js")

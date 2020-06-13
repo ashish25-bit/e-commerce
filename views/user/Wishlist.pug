@@ -1,0 +1,25 @@
+extends ../layouts/Layout
+block content
+    include ../layouts/HeaderUser
+    p.response_msg
+    h2.wish-cart Wishlist
+    if msg !== ''
+        p.wish-cart-msg= msg
+    else 
+        .extras_con
+            -products.forEach(product => {
+                .products_con
+                    section
+                        .image_con
+                            img(src=`uploads/${product.folder}/${product.images[0]}` alt= product.name)
+                        .pro_content
+                            - var href = product.name.split(' ').join('-');
+                            a(href=`/product/${href}?r=${product._id}` class='name')= product.name
+                            p= `Stocks = ${product.stocks}`
+                            p &#x20B9  
+                                span= product.price
+                    button(class='remove_btn' data-item-id=product._id) Remove from wishlist
+                    button(class='buy') Buy Now
+            -})
+
+    script(src="js/remove.js")

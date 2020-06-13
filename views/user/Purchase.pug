@@ -1,0 +1,37 @@
+extends ../layouts/Layout
+block content
+    include ../layouts/HeaderUser
+
+    if error === ''
+        div(style='display:flex;')
+            div(style='margin:20px 30px;flex:1;')
+                img(src=`uploads/${product.folder}/${product.images[0]}` width='400px')
+                h2= product.name
+                p(style='font-size:15px')= `${product.stocks} items remaining`
+
+            div(style='flex:2; margin:20px 30px;')
+                //- total
+                h2 Total: 
+                    span.total= product.price 
+
+                p.quantity
+                    button(class='decrease disable' disabled ) 
+                        i(class="fa fa-minus" aria-hidden="true")
+                    span 1
+                    button.increase 
+                        i(class="fa fa-plus" aria-hidden="true")
+
+                //- payment form
+                form(action="/purchase/charge" method="post" id="payment-form" style='width:500px;')
+                    div(id="card-element")
+
+                    div(id="card-errors" role="alert")
+
+                    button.pay_with_card Pay With Card
+
+    else 
+        p= error
+
+    script(src="https://js.stripe.com/v3/")
+    //- script(src="https://checkout.stripe.com/checkout.js")
+    script(src='js/purchase.js')

@@ -1,0 +1,443 @@
+/* basic styling */
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    box-sizing: border-box;
+}
+body, input, button, ::placeholder {
+    font-family: 'Poppins', sans-serif;
+}
+input, a, button, select, option {
+    outline: none;
+}
+a {
+    text-decoration: none;
+}
+button {
+    cursor: pointer;
+}
+/* input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} */
+
+/* admin login page */
+.form_container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    text-align: center;
+}
+.form_container p {
+    text-align: center;
+    background: #3C8CE7;
+    font-weight: bolder;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding: 10px;
+    border-radius: 15px 15px 0 0;
+    margin-bottom: 20px;
+    letter-spacing: 1.3px;
+}
+.field input {
+    width: 80%;
+    margin: 5px 0;
+    padding: 8px 4px;
+    border-radius: 9px;
+    border: 1px #aaa solid;
+}
+.btn_con {
+    margin: 10px 0;
+}
+.login_btn {
+    padding: 5px 10px;
+    width: 40%;
+    background: #3C8CE7;
+    border: none;
+    border-radius: 10px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* header styling */
+
+.response_msg{
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+.response_msg_active {
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 10px 20px;
+    user-select: none;
+    animation: response 5s ease;
+}
+
+@keyframes response {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1; 
+    }
+}
+
+.header {
+    padding: 15px 20px;
+    text-align: right;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.nav_link {
+    margin: 0 5px;
+}
+
+/* add products */
+
+.add_form {
+    width: 80%;
+    margin: 0 auto;
+}
+.add_form label {
+    color: #7b7a7a;
+    user-select: none;
+}
+.add_products_head {
+    margin: 30px 50px;
+    font-size: 3rem;
+}
+.add-name-price-category, .add_description {
+    display: flex;
+    margin: 10px 0;
+}
+.add_field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 10px ;
+}
+.add_description div {
+    flex: 1;
+}
+.des_input {
+    width: 80%;
+    margin-left: 10px;
+}
+.add_field input, .add_description input {
+    padding: 5px;
+    border: 1.3px #aaa solid;
+} 
+.add_field select {
+    padding: 7px 5px;
+}
+.add_description ul {
+    margin: 0 20px;
+    padding: 10px 20px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    min-height: 20px;
+}
+.add_field label {
+    transform: translateY(3px);
+}
+
+.add_images {
+    display: flex;
+}
+#image_input {
+    display: none;
+}
+.image_label_input {
+    cursor: pointer;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: #ddd;
+    margin: 0 20px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    position: relative;
+}
+.image_label_input::before, .image_label_input::after  {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 5px;
+    background: #aaa;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.image_label_input::after {
+    width: 5px;
+    height: 40%;
+}
+.uploaded_product_image {
+    width: 100px;
+    height: auto;
+}
+.upload_image_con {
+    display: flex;
+    margin: 20px 0;
+}
+
+.preview_images {
+    min-height: 80px;
+    padding: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    flex: 2;
+    display: flex;
+    align-items: center;
+}
+.preview_images img {
+    margin-right: 10px;
+}
+.add_des_btn {
+    margin: 0 10px;
+    padding: 4px 6px;
+    border: 2px #3C8CE7 solid;
+    background: white;
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: #3C8CE7;
+}
+.add_prod_btn {
+    text-align: center;
+    margin: 20px 0;
+}
+.add_prod_btn button {
+    width: 200px;
+    padding: 10px 0;
+    background: #3C8CE7;
+    font-weight: bolder;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* products added page */
+.products {
+    width: 700px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+.product {
+    display: flex;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px ;
+    transition: 0.4s box-shadow ease;
+}
+.product:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.image_con {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.pro_content {
+    flex: 2;
+    margin: 0 10px ;
+}
+.image_con img {
+    width: 150px;
+}
+.pro_content .name {
+    font-size: 1.7rem;
+}
+.pro_content .category {
+    color: #7b7a7a;
+    font-size: 14px;
+}
+.pro_content  .stocks_alert {
+    color: #ff0202;
+}
+.pro_content a {
+    font-size: 12px;
+}
+
+/* user home page */
+.main_con {
+    width: 100%;
+}
+.filter_con {
+    flex: 1;
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    float: left;
+    box-shadow: -4px 0 4px rgba(0, 0, 0, 0.2) inset;
+}
+.search_prod_con {
+    float: right;
+    width: calc( 100% - 300px );
+    height: 100%;
+}
+.product_search_con {
+    text-align: center;
+    margin-top: 30px;
+}
+.product_search_con input {
+    width: 35%;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+.product_search_con button {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    background: #3AAEAE;
+    color: white;
+    font-weight: bold;
+}
+.category_btn {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    text-align-last: left;
+    border: none;
+    border-bottom: 1px solid #000;
+}
+.active_category {
+    background: #aaa;
+}
+.response_search {
+    margin: 30px 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.product_search {
+    display: grid;
+    width: 95%;
+    margin: 10px auto;
+    grid-template-columns: repeat(2, 50%);
+}
+.product_search .product {
+    margin: 10px;
+}
+.product_search .name {
+    font-size: 1.2rem;
+}
+
+/* detail page for the products */
+
+.product_detail {
+    display: flex;
+    margin: 30px 0;
+}
+.product_image_con {
+    flex: 1;
+    display: flex;
+}
+.aside_small_images {
+    flex: 1;
+    display: grid;
+    justify-content: space-around;
+    align-items: center;
+}
+.full_image_size {
+    flex: 2;
+}
+.full_image_size img {
+    width: 500px;
+    user-select: none;
+}
+.aside_small_images img {
+    display: block;
+    width: 50px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    user-select: none;
+}
+.product_detail_con {
+    flex: 1;
+}
+.aside_small_images .on_view {
+    box-shadow: 0 0 5px red;
+}
+.cart_wishlist_buy {
+    text-align: center;
+}
+.cart_wishlist_buy button {
+    margin: 0 5px ;
+    padding: 6px;
+}
+
+/* wishlist and cart */
+.wish-cart {
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+}
+.wish-cart-msg {
+    width: 95%;
+    margin: 0 auto;
+}
+.extras_con {
+    display: grid;
+    width: 95%;
+    margin: 10px auto;
+    grid-template-columns: repeat(3, 33%);
+}
+.extras_con .name {
+    font-size: 20px;
+}
+.products_con section {
+    display: flex;
+}
+.products_con {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 20px;
+    margin: 0 10px;
+}
+.products_con button {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 5px 8px;
+    border: none;
+}
+.quantity button {
+    margin: 0 10px;
+    padding: 10px 15px;
+    border-radius: 50%;
+    border: none;
+    background: #ccc;
+}
+.quantity {
+    margin: 10px 0;
+}
+.quantity .disable {
+    opacity: .5;
+}
+.pay_with_card {
+    margin: 10px 0;
+    padding: 10px;
+    background: #194075;
+    color: #fff;
+    text-transform: uppercase;
+    border: none;
+}
+.quantity span {
+    width: 100px;
+}

@@ -1,0 +1,40 @@
+form(method='POST' class=action)
+
+    //- name input field
+    .field
+        input(
+            type="text" 
+            class='name_input' 
+            name="name" 
+            autocomplete='off' 
+            placeholder='Enter Name'
+            value='Ashish Yoel  '
+        )
+
+    //- email input field
+    .field
+        input(
+            type="email" 
+            class='email_input' 
+            name="email" 
+            autocomplete='off' 
+            placeholder='Enter Email'
+            value='ashishyoel23@gmail.com'
+        )
+
+    //- password field
+    .field 
+        input(
+            type="password" 
+            class='pwd_input' 
+            name="password" 
+            placeholder='Enter Password'
+            value='12345'
+        )
+    
+    .btn_con
+        button(type="submit" class='login_btn') Login
+
+    section=error
+
+script(src="js/signup.js")

@@ -1,0 +1,56 @@
+extends ../layouts/Layout
+block content
+    include ../layouts/HeaderAdmin
+    p.response_msg
+    h3.add_products_head Add Products
+    form(class='add_form')
+        //- name of the product 
+        .add-name-price-category
+            .add_field
+                label Name
+                input(type="text", id="add_name" name="name" autocomplete='off' value='Adidas Uefa Champain\'s league football')
+
+            //- category
+            .add_field  
+                label Category
+                select(name="category" id="add_category")
+                    option(value="")
+                    option(value="Football" selected) Football
+                    option(value="Football Shoes") Football Shoes
+                    option(value="T-shirts") T-shirts
+                    option(value="Shorts") Shorts
+
+            //- price
+            .add_field  
+                label Price
+                input(type="number", value=1000 id="add_price" name="price")
+
+            //- stocks
+            .add_field  
+                label Stocks
+                input(type="number", value=100 id="add_stocks" name="stocks")
+
+        //- description
+        .add_description
+            label Description
+            div
+                input(type="text" class='des_input')
+                button(class='add_des_btn') Add
+            div
+                ul(class='des')
+                    
+        
+        //- add photos
+        .upload_image_con
+            .add_images
+                label Add Images
+                input(id="image_input" name="files" type="file" accept="image/*" multiple) 
+                label(for='image_input' class='image_label_input')
+
+            .preview_images
+
+        .add_prod_btn
+            button Add Products
+        
+            
+    script(src="js/add_products.js")

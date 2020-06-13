@@ -1,0 +1,25 @@
+extends ../layouts/Layout
+block content
+    include ../layouts/HeaderUser
+    .main_con
+        //- filter container   
+        .filter_con
+            p(style='text-align: center; margin-top: 10px; padding:bottom: 5px; border-bottom: 1px #ccc solid;') Shop By Category
+
+            //- buttons
+            button(type='button' class='category_btn') Football
+            button(type='button' class='category_btn') Football Shoes
+            button(type='button' class='category_btn') T-shirts
+            button(type='button' class='category_btn') Shorts
+
+        //- search and products container
+        .search_prod_con
+            form(class='product_search_con')
+                input(type="text" placeholder='Enter Name Of The Product.')
+                button(type="submit") Search
+
+            .product_con    
+                .response_search
+                .product_search
+        
+    script(src="js/home.js")
