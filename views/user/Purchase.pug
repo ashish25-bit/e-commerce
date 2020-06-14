@@ -10,11 +10,31 @@ block content
                 p(style='font-size:15px')= `${product.stocks} items remaining`
 
             div(style='flex:2; margin:20px 30px;')
-                //- total
-                h2 Total: 
-                    span.total= product.price 
+                
+                table.gross_total
+                    thead
+                        th(colspan='2') Total
+                    tbody
+                        tr
+                            td Product Price
+                            td.price= product.price
+                        
+                        tr 
+                            td Quantity
+                            td.quantity 1
+                        
+                        tr
+                            td Additional Fee
+                            td.additional= product.price * 0.036
 
-                p.quantity
+                        tr
+                            td Total
+                            td &#x20B9 
+                                span.total=  product.price + (product.price * 0.036)
+
+                small(style='color: #858585; font-size:12px;') 3.6% Additional Fee also know as 'TAX'
+
+                p.quantity Quantity:
                     button(class='decrease disable' disabled ) 
                         i(class="fa fa-minus" aria-hidden="true")
                     span 1
@@ -33,5 +53,9 @@ block content
         p= error
 
     script(src="https://js.stripe.com/v3/")
-    //- script(src="https://checkout.stripe.com/checkout.js")
+    script(
+        src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js" 
+        integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" 
+        crossorigin="anonymous"
+    )
     script(src='js/purchase.js')

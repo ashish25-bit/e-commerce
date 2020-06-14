@@ -15,12 +15,12 @@ block content
                         .pro_content
                             - var href = product.name.split(' ').join('-');
                             a(href=`/product/${href}?r=${product._id}` class='name')= product.name
-                            p= `Stocks = ${product.stocks}`
+                            p= `Stocks: ${product.stocks}`
                             p &#x20B9  
                                 span= product.price
                     button(class='remove_btn' data-item-id=product._id) Remove from cart
-                    button(class='buy') Buy Now
+                    a(class='buy' href=`/purchase/${href}?r=${product._id}`) Proceed To Pay
             -})
-        button(class='buy_all') Buy All
+        //- button(class='buy_all') Buy All
 
     script(src="js/remove.js")

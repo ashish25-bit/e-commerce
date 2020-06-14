@@ -411,11 +411,14 @@ input::-webkit-inner-spin-button {
     border-radius: 20px;
     margin: 0 10px;
 }
-.products_con button {
+.products_con button, .products_con .buy {
     margin-top: 10px;
     margin-right: 10px;
     padding: 5px 8px;
     border: none;
+    background: #EFEFEF;
+    font-size: 15px;
+    color: #000;
 }
 .quantity button {
     margin: 0 10px;
@@ -440,4 +443,31 @@ input::-webkit-inner-spin-button {
 }
 .quantity span {
     width: 100px;
+}
+.gross_total tr td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #000;
+}
+.gross_total tr td:nth-child(1) {
+    background: #eee;
+    border-right: 1px solid #000;
+}
+.gross_total tr th {
+    text-align: left;
+    background: #ddd;
+    padding: 5px 10px;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+#card-element {
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+.gross_total {
+    border-collapse: collapse;
+}
+#card-errors {
+    color: #858585;
+    font-size: 14px;
 }

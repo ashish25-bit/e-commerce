@@ -18,9 +18,9 @@ app.set('views', path.join(__dirname, 'views'))
 
 // purchase page
 router.get('/:name', async (req, res) => {
-    if(!req.session.user) 
+    if (!req.session.user)
         return res.redirect('/')
-    
+
     const id = req.query['r']
 
     try {
@@ -48,24 +48,36 @@ router.get('/:name', async (req, res) => {
             error: 'Server Error',
             product: {}
         })
-    }  
+    }
 })
 
 // charge
-router.post('/charge', (req, res) => {
-    const token = req.body.stripeToken;
-    const amount = req.body.amount;
+router.post('/charge', async (req, res) => {
+    const { stripeToken, id, quantity } = req.body
 
-    (async () => {
+    try {
+
+        const product = await Product.findById(id)
+
+        if (!product)
+            return res.redirect('/home')
+
+        let fee = quantity * product.price * 0.0354 * 100
+
         const charge = await stripe.charges.create({
-            amount,
+            amount: (product.price * 100 * quantity) + fee,
             currency: 'inr',
-            description: 'Example Charge',
-            source: token,
+            description: `${quantity} ${product.name} bought by ${req.session.user.name}`,
+            source: stripeToken,
         })
-        if(charge.status == 'succeeded') 
-            res.send('success')
-    })();
+
+        if (charge.status == 'succeeded')
+            res.redirect('/home')
+    }
+    catch (err) {
+        console.log(err)
+        res.redirect('/home')
+    }
 })
 
 

@@ -153,10 +153,8 @@ router.get('/search/product', async (req, res) => {
     }
 
     try {
-        // const product = await Product.find({ category }).where(name).equals(key)
         const product = await Product.find({ $and: [{ category }, { name: { $eq: key } }] })
 
-        console.log(product)
         if (!product)
             return res.json({ msg: `Nothing can be found` })
         res.json(product)

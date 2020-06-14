@@ -10,14 +10,13 @@ if (remove.length) {
             response_msg.innerText = ''
             const parent = btn.parentElement
             btn.disabled = true
+            btn.style.opacity = '0.5'
             let id = btn.getAttribute('data-item-id')
             axios.post(`/add/${type}/${id}`)
                 .then(res => {
                     parent.remove()
                     if(!container.childElementCount) {
                         document.body.append(`No products in your ${type}`)
-                        if(type === 'cart')
-                            document.querySelector('.buy_all').remove()
                     }
                     responseTimeout(res.data)
                 })
