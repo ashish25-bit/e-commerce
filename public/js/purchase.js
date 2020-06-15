@@ -1,4 +1,4 @@
-const stripe = Stripe('STRIPE_PUBLIC_KEY');
+const stripe = Stripe(stripe_public_key)
 let elements = stripe.elements()
 const form = document.getElementById('payment-form')
 const increase = document.querySelector('.increase')

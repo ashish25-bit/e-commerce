@@ -149,7 +149,8 @@ router.post('/add/product', async (req, res) => {
                 price: req.body.price,
                 folder: folderName,
                 description: req.body.description,
-                images
+                images,
+                sold: 0
             }
             const newProduct = new Product(product)
             await newProduct.save()

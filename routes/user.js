@@ -6,6 +6,7 @@ const path = require('path')
 const app = express()
 const User = require('../models/User')
 const Product = require('../models/Product')
+const Purchase = require('../models/Purchased')
 const Wishlist = require('../models/Wishlist')
 const Cart = require('../models/Cart')
 
@@ -58,7 +59,7 @@ router.post('/login', async (req, res) => {
             })
 
         req.session.user = user
-        res.redirect('/purchase/Real-Madrid-Jersy-2020?r=5edf9d4e7f06f46531289de7')
+        res.redirect('/product/purchased/list')
     }
     catch (err) {
         console.log(err)
@@ -206,7 +207,7 @@ router.get('/cart', async (req, res) => {
     if (req.session.user) {
         try {
             const data = await Cart.findOne({ user: req.session.user._id })
-            
+
             if (!data) {
                 return res.render('user/Cart', {
                     title: 'Your Cart',
@@ -270,6 +271,47 @@ router.get('/wishlist', async (req, res) => {
         }
     }
     res.redirect('/')
+})
+
+// get the purchased product list
+router.get('/product/purchased/list', async (req, res) => {
+    if (!req.session.user)
+        return res.redirect('/')
+
+    try {
+        const purchase = await Purchase.findOne({ user: req.session.user._id })
+        if (!purchase)
+            return res.render({
+                title: 'Products Purchased',
+                user: req.session.user,
+                error: 'No Items Bought Yet!',
+                products: [],
+                items: []
+            })
+
+        let productId = []
+        purchase.items.forEach(item => productId.unshift(item.productId))
+
+        const products = await Product.find({ "_id": { $in: productId } })
+
+        res.render('user/Buy', {
+            title: 'Products Purchased',
+            user: req.session.user,
+            error: '',
+            products,
+            items: purchase.items
+        })
+    }
+    catch (err) {
+        console.log(err)
+        res.render('user/Buy', {
+            title: 'Products Purchased',
+            user: req.session.user,
+            error: 'Server Error',
+            products: [],
+            items: []
+        })
+    }
 })
 
 module.exports = router

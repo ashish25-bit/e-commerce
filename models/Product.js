@@ -26,7 +26,8 @@ const ProductSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    images: []
+    images: [],
+    sold: { type: Number }
 })
 
 module.exports = Product = mongoose.model('product', ProductSchema)

@@ -43,14 +43,37 @@ block content
 
                 //- payment form
                 form(action="/purchase/charge" method="post" id="payment-form" style='width:500px;')
+
+                    div.input
+                        label Name
+                        input(type="text", name="name" value='Ashish Yoel' required)
+
+                    div.input
+                        label Address 
+                        input(type="text", name="address" value='Lucknow, India' required)
+
+                    //- div.input
+                    //-     label Pincode
+                    //-     input(type="number", name="pincode" value='226014' required)
+
+                    div.input
+                        label Phone No  
+                        input(type="number", name="mobile" value='8004373531' required)
+
                     div(id="card-element")
 
                     div(id="card-errors" role="alert")
 
                     button.pay_with_card Pay With Card
-
     else 
         p= error
+
+    if msg !== ''
+        p= msg   
+
+    
+    script
+        | var stripe_public_key = !{JSON.stringify(publicKey)}
 
     script(src="https://js.stripe.com/v3/")
     script(

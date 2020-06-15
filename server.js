@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '/public')))
 app.use('/admin', express.static('public'))
 app.use('/product', express.static('public'))
+app.use('/product/purchased', express.static('public'))
 app.use('/purchase', express.static('public'))
 app.use('/admin/add', express.static('public'))
 

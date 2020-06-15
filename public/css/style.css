@@ -18,11 +18,11 @@ a {
 button {
     cursor: pointer;
 }
-/* input::-webkit-outer-spin-button,
+input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-} */
+}
 
 /* admin login page */
 .form_container {
@@ -420,6 +420,8 @@ input::-webkit-inner-spin-button {
     font-size: 15px;
     color: #000;
 }
+
+/* payament portal */
 .quantity button {
     margin: 0 10px;
     padding: 10px 15px;
@@ -470,4 +472,19 @@ input::-webkit-inner-spin-button {
 #card-errors {
     color: #858585;
     font-size: 14px;
+}
+
+#payment-form .input {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+#payment-form .input label {
+    font-size: 15px;
+    color: #858585;
+}
+#payment-form .input input {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px solid #858585;
 }

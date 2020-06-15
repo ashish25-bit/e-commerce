@@ -1,0 +1,23 @@
+extends ../layouts/Layout
+block content
+    include ../layouts/HeaderUser
+    h2.wish-cart Items Purchased
+    if err !== ''
+        .extras_con
+            -items.forEach(item => { 
+                - var product = products.find(p => p._id == item.productId)
+                - const { name, folder, images } = product
+
+                .products_con
+                    section
+                        .image_con
+                            img(src=`uploads/${folder}/${images[0]}` alt= name)
+                        .pro_content
+                            - var href = product.name.split(' ').join('-')
+                            a(href=`/product/${href}?r=${product._id}` class='name')= product.name
+                            p= `Status: ${item.status}`
+                        
+            -})
+
+    else 
+        p= error
