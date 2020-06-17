@@ -4,11 +4,13 @@ const bcrypt = require('bcryptjs')
 const path = require('path')
 
 const app = express()
+const authUser = require('../middleware/authUser')
 const User = require('../models/User')
 const Product = require('../models/Product')
 const Purchase = require('../models/Purchased')
 const Wishlist = require('../models/Wishlist')
 const Cart = require('../models/Cart')
+const { customer } = require('../secret')
 
 // for body parser
 app.use(express.urlencoded({ extended: false }))
@@ -20,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 
 // logout request 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', (req, res) => {
     if (req.session.user)
         req.session.destroy(() => res.redirect('/'))
     else
@@ -35,7 +37,7 @@ router.get('/', (req, res) => {
             action: 'auth_form user',
             error: ''
         })
-    res.redirect('/home')
+    res.redirect(`/home?referrer=${customer}`)
 })
 
 // verfying and logging in user
@@ -57,9 +59,10 @@ router.post('/login', async (req, res) => {
                 action: 'auth_form user',
                 error: 'Invalid Credentials'
             })
-
+        
         req.session.user = user
-        res.redirect('/product/purchased/list')
+        req.session['x-auth-type'] = customer
+        res.redirect(`/home?referrer=${customer}`)
     }
     catch (err) {
         console.log(err)
@@ -75,7 +78,7 @@ router.get('/signup', (req, res) => {
             action: 'auth_form user',
             error: ''
         })
-    res.redirect('/home')
+    res.redirect(`/home?referrer=${customer}`)
 })
 
 // verfying and signing in user
@@ -102,7 +105,7 @@ router.post('/signup', async (req, res) => {
 
         await user.save()
         req.session.user = user
-        res.send(`Hello signup ${user.name}`)
+        res.redirect(`/home?referrer=${customer}`)
     }
     catch (err) {
         console.log(err)
@@ -111,18 +114,19 @@ router.post('/signup', async (req, res) => {
 })
 
 // home page for users
-router.get('/home', (req, res) => {
+router.get('/home', authUser, (req, res) => {
     if (req.session.user) {
         return res.render('user/Home', {
             title: 'Home - E-commerce',
-            user: req.session.user
+            user: req.session.user,
+            referrer: customer
         })
     }
     res.redirect('/')
 })
 
 // get product by name
-router.get('/search/product', async (req, res) => {
+router.get('/search/product', authUser, async (req, res) => {
     const { key, category } = req.query
     // if key is empty then search on the basis of the selected category
     if (key === '') {
@@ -168,7 +172,7 @@ router.get('/search/product', async (req, res) => {
 })
 
 // get the products page
-router.get('/product/:name', async (req, res) => {
+router.get('/product/:name', authUser, async (req, res) => {
     if (!req.session.user)
         return res.redirect('/')
 
@@ -181,14 +185,16 @@ router.get('/product/:name', async (req, res) => {
                 title: req.params.name,
                 user: req.session.user,
                 error: 'No Product Found',
-                product: {}
+                product: {},
+                referrer: customer
             })
 
         return res.render('user/Product', {
             title: req.params.name,
             user: req.session.user,
             error: '',
-            product
+            product,
+            referrer: customer
         })
     }
     catch (err) {
@@ -197,13 +203,14 @@ router.get('/product/:name', async (req, res) => {
             title: req.params.name,
             user: req.session.user,
             error: 'Server Error',
-            product: {}
+            product: {},
+            referrer: customer
         })
     }
 })
 
 // get the cart page
-router.get('/cart', async (req, res) => {
+router.get('/cart', authUser, async (req, res) => {
     if (req.session.user) {
         try {
             const data = await Cart.findOne({ user: req.session.user._id })
@@ -212,7 +219,8 @@ router.get('/cart', async (req, res) => {
                 return res.render('user/Cart', {
                     title: 'Your Cart',
                     user: req.session.user,
-                    msg: 'No Products On Your Cart..'
+                    msg: 'No Products On Your Cart..',
+                    referrer: customer
                 })
             }
 
@@ -223,7 +231,8 @@ router.get('/cart', async (req, res) => {
                 title: 'Your Cart',
                 user: req.session.user,
                 products,
-                msg: products.length ? '' : 'No Products On Your Cart..'
+                msg: products.length ? '' : 'No Products On Your Cart..',
+                referrer: customer
             })
         }
         catch (err) {
@@ -231,7 +240,8 @@ router.get('/cart', async (req, res) => {
             return res.render('user/Cart', {
                 title: 'Your Cart',
                 user: req.session.user,
-                msg: 'Server Error. Cannot get your cart'
+                msg: 'Server Error. Cannot get your cart',
+                referrer: customer
             })
         }
     }
@@ -239,7 +249,7 @@ router.get('/cart', async (req, res) => {
 })
 
 // get the wishlist page
-router.get('/wishlist', async (req, res) => {
+router.get('/wishlist', authUser, async (req, res) => {
     if (req.session.user) {
         try {
             const data = await Wishlist.findOne({ user: req.session.user._id })
@@ -247,7 +257,8 @@ router.get('/wishlist', async (req, res) => {
                 return res.render('user/Wishlist', {
                     title: 'Your wishlist',
                     user: req.session.user,
-                    msg: 'No Products On Your Wishlist..'
+                    msg: 'No Products On Your Wishlist..',
+                    referrer: customer
                 })
             }
 
@@ -258,7 +269,8 @@ router.get('/wishlist', async (req, res) => {
                 title: 'Your wishlist',
                 user: req.session.user,
                 products,
-                msg: products.length ? '' : 'No Products On Your Wishlist..'
+                msg: products.length ? '' : 'No Products On Your Wishlist..',
+                referrer: customer
             })
         }
         catch (err) {
@@ -266,7 +278,8 @@ router.get('/wishlist', async (req, res) => {
             return res.render('user/Wishlist', {
                 title: 'Your wishlist',
                 user: req.session.user,
-                msg: 'Server Error. Cannot get your wishlist'
+                msg: 'Server Error. Cannot get your wishlist',
+                referrer: customer
             })
         }
     }
@@ -274,7 +287,7 @@ router.get('/wishlist', async (req, res) => {
 })
 
 // get the purchased product list
-router.get('/product/purchased/list', async (req, res) => {
+router.get('/product/purchased/list', authUser, async (req, res) => {
     if (!req.session.user)
         return res.redirect('/')
 
@@ -286,7 +299,8 @@ router.get('/product/purchased/list', async (req, res) => {
                 user: req.session.user,
                 error: 'No Items Bought Yet!',
                 products: [],
-                items: []
+                items: [],
+                referrer: customer
             })
 
         let productId = []
@@ -299,7 +313,8 @@ router.get('/product/purchased/list', async (req, res) => {
             user: req.session.user,
             error: '',
             products,
-            items: purchase.items
+            items: purchase.items,
+            referrer: customer
         })
     }
     catch (err) {
@@ -309,7 +324,8 @@ router.get('/product/purchased/list', async (req, res) => {
             user: req.session.user,
             error: 'Server Error',
             products: [],
-            items: []
+            items: [],
+            referrer: customer
         })
     }
 })

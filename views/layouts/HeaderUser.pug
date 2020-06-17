@@ -1,7 +1,7 @@
 .header
     span= `Hello, ${user.name.split(' ')[0]} `
-    a(class='nav_link' href='/home') Home
-    a(class='nav_link' href='/cart') Cart
-    a(class='nav_link' href='/wishlist') Wishlist
-    a(class='nav_link' href='/product/purchased/list') Item Purchased
+    a(class='nav_link' href=`/home?referrer=${referrer}`) Home
+    a(class='nav_link' href=`/cart?referrer=${referrer}`) Cart
+    a(class='nav_link' href=`/wishlist?referrer=${referrer}`) Wishlist
+    a(class='nav_link' href=`/product/purchased/list?referrer=${referrer}`) Item Purchased
     a(class='nav_link' href='/logout') Logout

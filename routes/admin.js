@@ -7,8 +7,10 @@ const random = require('random-id')
 const fs = require('fs')
 
 const app = express()
+const authUser = require('../middleware/authUser')
 const Admin = require('../models/Admin')
 const Product = require('../models/Product')
+const { admin } = require('../secret')
 
 // for body parser
 app.use(express.urlencoded({ extended: false }))
@@ -65,22 +67,22 @@ router.get('/login', (req, res) => {
             error: ''
         })
     }
-    res.redirect('dashboard')
+    res.redirect(`dashboard?referrer=${admin}`)
 })
 
 // verifying and logging in admin
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
     try {
-        let admin = await Admin.findOne({ email })
-        if (!admin)
+        let user = await Admin.findOne({ email })
+        if (!user)
             return res.render('admin/Login', {
                 title: 'Admin Login - E-Commerce',
                 action: 'auth_form admin',
                 error: 'Admin does not exists'
             })
 
-        const isMatch = await bcrypt.compare(password, admin.password)
+        const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch)
             return res.render('admin/Login', {
                 title: 'Admin Login - E-Commerce',
@@ -88,8 +90,9 @@ router.post('/login', async (req, res) => {
                 error: 'Invalid Credentials'
             })
 
-        req.session.user = admin
-        res.redirect('dashboard')
+        req.session['x-auth-type'] = admin
+        req.session.user = user
+        res.redirect(`dashboard?referrer=${admin}`)
     }
     catch (err) {
         console.log(err)
@@ -98,22 +101,24 @@ router.post('/login', async (req, res) => {
 })
 
 // admin dashboard
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', authUser, (req, res) => {
     if (req.session.user) {
         return res.render('admin/Dashboard', {
             title: 'Admin Dashboard',
-            user: req.session.user
+            user: req.session.user,
+            referrer: admin
         })
     }
     res.redirect('login')
 })
 
 // get the product page
-router.get('/add/product', (req, res) => {
+router.get('/add/product', authUser, (req, res) => {
     if (req.session.user)
         return res.render('admin/AddProducts', {
             title: 'Add Products',
-            user: req.session.user
+            user: req.session.user,
+            referrer: admin
         })
     res.redirect('../login')
 })
@@ -164,11 +169,12 @@ router.post('/add/product', async (req, res) => {
 })
 
 // get the added products page
-router.get('/products', (req, res) => {
+router.get('/products', authUser, (req, res) => {
     if (req.session.user)
         return res.render('admin/Products', {
             title: 'Products',
-            user: req.session.user
+            user: req.session.user,
+            referrer: admin
         })
     res.redirect('login')
 })
