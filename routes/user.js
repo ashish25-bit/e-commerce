@@ -126,7 +126,7 @@ router.get('/home', authUser, (req, res) => {
 })
 
 // get product by name
-router.get('/search/product', authUser, async (req, res) => {
+router.get('/search/product', async (req, res) => {
     const { key, category } = req.query
     // if key is empty then search on the basis of the selected category
     if (key === '') {

@@ -9,6 +9,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const app = express()
 const Product = require('../models/Product')
 const Purchase = require('../models/Purchased')
+const authUser = require('../middleware/authUser')
+const { customer } = require('../secret')
 
 // for body parser
 app.use(express.urlencoded({ extended: false }))
@@ -21,7 +23,7 @@ app.set('views', path.join(__dirname, 'views'))
 
 
 // purchase page
-router.get('/:name', async (req, res) => {
+router.get('/:name', authUser, async (req, res) => {
     if (!req.session.user)
         return res.redirect('/')
 
@@ -36,7 +38,8 @@ router.get('/:name', async (req, res) => {
                 error: 'No Product Found',
                 product: {}, 
                 msg: '',
-                publicKey: process.env.STRIPE_PUBLIC_KEY
+                publicKey: process.env.STRIPE_PUBLIC_KEY,
+                referrer: customer
             })
 
         return res.render('user/Purchase', {
@@ -45,7 +48,8 @@ router.get('/:name', async (req, res) => {
             error: '',
             product,
             msg: '',
-            publicKey: process.env.STRIPE_PUBLIC_KEY
+            publicKey: process.env.STRIPE_PUBLIC_KEY,
+            referrer: customer
         })
     }
     catch (err) {
@@ -56,7 +60,8 @@ router.get('/:name', async (req, res) => {
             error: 'Server Error',
             product: {},
             msg: '',
-            publicKey: process.env.STRIPE_PUBLIC_KEY
+            publicKey: process.env.STRIPE_PUBLIC_KEY,
+            referrer: customer
         })
     }
 })
@@ -109,7 +114,7 @@ router.post('/charge', async (req, res) => {
                     profile = new Purchase(data)
                     profile.save()
                 }
-                return res.redirect('/product/purchased/list')
+                return res.redirect(`/product/purchased/list?referrer=${customer}`)
             }
 
             return res.render('user/Purchase', {
@@ -117,7 +122,8 @@ router.post('/charge', async (req, res) => {
                 user: req.session.user,
                 error: '',
                 product,
-                msg: 'Error in purchasing the product'
+                msg: 'Error in purchasing the product',
+                referrer: customer
             })
 
         }
@@ -127,13 +133,14 @@ router.post('/charge', async (req, res) => {
             user: req.session.user,
             error: '',
             product,
-            msg: `${quantity} stocks of this product is not available.`
+            msg: `${quantity} stocks of this product is not available.`,
+            referrer: customer
         })
 
     }
     catch (err) {
         console.log(err)
-        res.redirect('/product/purchased/list')
+        res.redirect(`/product/purchased/list?referrer=${customer}`)
     }
 })
 

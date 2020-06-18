@@ -65,6 +65,7 @@ block content
                     div(id="card-errors" role="alert")
 
                     button.pay_with_card Pay With Card
+
     else 
         p= error
 
@@ -73,7 +74,7 @@ block content
 
     
     script
-        | var stripe_public_key = !{JSON.stringify(publicKey)}
+        | var stripe_public_key = !{JSON.stringify(publicKey)};
 
     script(src="https://js.stripe.com/v3/")
     script(

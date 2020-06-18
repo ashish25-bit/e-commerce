@@ -17,7 +17,7 @@ form.addEventListener('submit', e => {
 
 categories.forEach((category, index) => {
     category.addEventListener('click', () => {
-        
+
         products.innerHTML = ''
 
         if (category_index >= 0 && index !== category_index)
@@ -56,7 +56,7 @@ function searchProduct() {
                         <img src='../uploads/${folder}/${images[0]}' />
                     </div>
                     <div class='pro_content'>
-                        <a href="/product/${href}?r=${_id}" class='name'>${name}</a>
+                        <a href="/product/${href}?r=${_id}&referrer=${authReferrer}" class='name'>${name}</a>
                         <p class='stocks'>${stocks > 0 ? stocks + ' stocks remaining' : 'Out Of stock'}</p>
                         <p>Price : &#x20B9; ${price}</p>
                     </div>`

@@ -14,12 +14,12 @@ block content
                             img(src=`uploads/${product.folder}/${product.images[0]}` alt= product.name)
                         .pro_content
                             - var href = product.name.split(' ').join('-');
-                            a(href=`/product/${href}?r=${product._id}` class='name')= product.name
+                            a(href=`/product/${href}?r=${product._id}&referrer=${referrer}` class='name')= product.name
                             p= `Stocks: ${product.stocks}`
                             p &#x20B9  
                                 span= product.price
                     button(class='remove_btn' data-item-id=product._id) Remove from cart
-                    a(class='buy' href=`/purchase/${href}?r=${product._id}`) Proceed To Pay
+                    a(class='buy' href=`/purchase/${href}?r=${product._id}&referrer=${referrer}`) Proceed To Pay
             -})
         //- button(class='buy_all') Buy All
 

@@ -59,5 +59,5 @@ function responseTimeout(msg) {
 
 buy.addEventListener('click', () => {
     name = name.split(' ').join('-')
-    window.location.href = `/purchase/${name}?r=${id.r}` 
+    window.location.href = `/purchase/${name}?r=${id.r}&referrer=${authReferrer}` 
 })

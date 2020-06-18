@@ -4,3 +4,6 @@
     a(class='nav_link' href=`/admin/products?referrer=${referrer}`) Products
     a(class='nav_link' href=`/admin/dashboard?referrer=${referrer}`) Dashboard
     a(class='nav_link' href='/logout') Logout
+
+script
+    | var authReferrer = !{JSON.stringify(referrer)}

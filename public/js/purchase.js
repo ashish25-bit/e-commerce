@@ -1,16 +1,16 @@
-const stripe = Stripe(stripe_public_key)
-let elements = stripe.elements()
-const form = document.getElementById('payment-form')
-const increase = document.querySelector('.increase')
-const decrease = document.querySelector('.decrease')
-let quantity = document.querySelector('.quantity span')
-let quantityTable = document.querySelector('.gross_total .quantity')
-const additional = document.querySelector('.gross_total .additional')
-const total = document.querySelector('.total')
-const totalOriginal = parseInt(document.querySelector('.gross_total .price').innerText)
-const feePercent = 0.036
+const stripe = Stripe(stripe_public_key);
+let elements = stripe.elements();
+const form = document.getElementById('payment-form');
+const increase = document.querySelector('.increase');
+const decrease = document.querySelector('.decrease');
+let quantity = document.querySelector('.quantity span');
+let quantityTable = document.querySelector('.gross_total .quantity');
+const additional = document.querySelector('.gross_total .additional');
+const total = document.querySelector('.total');
+const totalOriginal = parseInt(document.querySelector('.gross_total .price').innerText);
+const feePercent = 0.036;
 
-const id = Qs.parse(location.search, { ignoreQueryPrefix: true })
+const id = Qs.parse(location.search, { ignoreQueryPrefix: true });
 
 let style = {
   base: {
@@ -18,13 +18,13 @@ let style = {
     fontSize: '16px',
     color: '#32325d'
   },
-}
+};
 
 // Create an instance of the card Element.
-let card = elements.create('card', { style: style })
+let card = elements.create('card', { style: style });
 
 // Add an instance of the card Element into the `card-element` <div>.
-card.mount('#card-element')
+card.mount('#card-element');
 
 form.addEventListener('submit', function (event) {
   event.preventDefault()
@@ -34,7 +34,7 @@ form.addEventListener('submit', function (event) {
       let errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
     } else {
-      stripeTokenHandler(result.token)
+      stripeTokenHandler(result.token);
     }
   })
 })
@@ -90,7 +90,7 @@ increase.addEventListener('click', () => {
   decrease.disabled = false
 })
 
-// deccrease
+// decrease
 decrease.addEventListener('click', () => {
   let quantityInteger = parseInt(quantity.innerText)
   let totalPrice

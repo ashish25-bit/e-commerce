@@ -1,11 +1,18 @@
+if(process.env.NODE_ENV !== 'production' ) {
+    require('dotenv').config()
+}
 const express = require('express')
 const session = require('express-session')
 const path = require('path')
 const connectDb = require('./core/db')
+const helmet = require('helmet')
+const { COOKIE_SECRET } = require('./secret')
 
 const app = express()
 connectDb()
-
+ 
+// adding helmet as a middleware
+app.use(helmet())
 // for body parser
 app.use(express.urlencoded({ extended: false }))
 // setting the static folder
@@ -20,14 +27,18 @@ app.use('/admin/add', express.static('public'))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+app.disable('x-powered-by')
 // setting the proxy
 app.set('trust proxy', 1)
 // setting the session
 app.use(session({
-    secret: 'e_commerce',
+    secret: COOKIE_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 5 * 24 * 60 * 60 * 1000 } // 5 days cookie
+    saveUninitialized: true,
+    cookie: { 
+        httpOnly: true,
+        maxAge: 5 * 24 * 60 * 60 * 1000,
+    } // 5 days cookie
 }))
 
 app.use('/', require('./routes/user'))

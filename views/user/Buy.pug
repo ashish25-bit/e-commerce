@@ -14,7 +14,7 @@ block content
                             img(src=`uploads/${folder}/${images[0]}` alt= name)
                         .pro_content
                             - var href = product.name.split(' ').join('-')
-                            a(href=`/product/${href}?r=${product._id}` class='name')= product.name
+                            a(href=`/product/${href}?r=${product._id}&referrer=${referrer}` class='name')= product.name
                             p= `Status: ${item.status}`
                         
             -})

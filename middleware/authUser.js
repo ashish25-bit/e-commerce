@@ -29,9 +29,9 @@ module.exports = (req, res, next) => {
     // if parameters is present but doesn't matches with the session variable
     else {
         if (authType === customer) 
-            res.redirect(`/home?referrer=${customer}`)
+            return res.redirect(`/home?referrer=${customer}`)
         else if (authType === admin) 
-            res.redirect(`/admin/dashboard?referrer=${admin}`)
+            return res.redirect(`/admin/dashboard?referrer=${admin}`)
     }
     next()
 }
